@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dr2onuyniujwy"]
+
+[ext_resource type="Script" uid="uid://coehnrx6k7ijv" path="res://GoL.cs" id="1_0pnx4"]
+
+[node name="Scène" type="Node2D" node_paths=PackedStringArray("textRect")]
+script = ExtResource("1_0pnx4")
+textRect = NodePath("Canva/TextureRect")
+
+[node name="Canva" type="Node2D" parent="."]
+scale = Vector2(10, 10)
+
+[node name="TextureRect" type="TextureRect" parent="Canva"]
