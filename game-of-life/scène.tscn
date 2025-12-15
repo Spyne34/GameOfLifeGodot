@@ -2,11 +2,9 @@
 
 [ext_resource type="Script" uid="uid://coehnrx6k7ijv" path="res://GoL.cs" id="1_0pnx4"]
 
-[node name="Scène" type="Node2D" node_paths=PackedStringArray("textRect")]
-script = ExtResource("1_0pnx4")
-textRect = NodePath("Canva/TextureRect")
+[node name="Scène" type="Node2D"]
 
 [node name="Canva" type="Node2D" parent="."]
-scale = Vector2(10, 10)
-
-[node name="TextureRect" type="TextureRect" parent="Canva"]
+script = ExtResource("1_0pnx4")
+maxAge = 5
+fade = 0.8
