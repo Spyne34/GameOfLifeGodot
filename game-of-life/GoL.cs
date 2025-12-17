@@ -23,6 +23,12 @@ public partial class GoL : Node
 	
 	//plus le fade est proche de 1 plus la trainée est longue
 	[Export] public float fade = 0.75f;
+	
+	[Export] public int numberToDie = 1;
+	[Export] public int numberToStay = 2;
+	[Export] public int numberToLive = 3;
+
+	[Export] public int distanceVoisins = 1;
 
 	public int PixelWidth
 	{
@@ -46,26 +52,26 @@ public partial class GoL : Node
 		get => world.GetLength(1);
 	}
 
-	public Vector2 World(int x, int y, float life = -1, float valueColor = -1)
+	public Vector2 World(int x, int y, float life = -1, float age = -1)
 	{
 		if (x < 0)
 		{
-			x = WorldWidth - 1;
+			x = WorldWidth + x;
 		}
 
 		if (x >= WorldWidth)
 		{
-			x = 0;
+			x = x - WorldWidth;
 		}
 
 		if (y < 0)
 		{
-			y = WorldHeight - 1;
+			y = WorldHeight + y;
 		}
 
 		if (y >= WorldHeight)
 		{
-			y = 0;
+			y = y - WorldHeight;
 		}
 
 		if (life >= 0)
@@ -73,9 +79,9 @@ public partial class GoL : Node
 			world[x, y].X = life;
 		}
 		
-		if (valueColor >= 0)
+		if (age >= 0)
 		{
-			world[x, y].Y = valueColor;
+			world[x, y].Y = age;
 		}
 		
 		return world[x, y];
@@ -193,6 +199,26 @@ public partial class GoL : Node
 		{
 			speed /= 2;
 		}
+		
+		if (Input.IsActionPressed("Dessiner"))
+		{
+			Vector2 pixel = GetWorldPixel(GetViewport().GetMousePosition());
+			int x = (int)pixel.X;
+			int y = (int)pixel.Y;
+			World(x, y, 1, 1);
+			imgs.SetPixel(x, y, ColorFromAge((int)World(x, y).Y));
+			imgTexture.Update(imgs);
+		}
+		
+		if (Input.IsActionPressed("Effacer"))
+		{
+			Vector2 pixel = GetWorldPixel(GetViewport().GetMousePosition());
+			int x = (int)pixel.X;
+			int y = (int)pixel.Y;
+			World(x, y, 0, 0);
+			imgs.SetPixel(x, y, ColorFromAge((int)World(x, y).Y));
+			imgTexture.Update(imgs);
+		}
 
 		
 		if (paused) return;
@@ -200,7 +226,7 @@ public partial class GoL : Node
 		timer -= delta;
 		if (timer > 0) return;
 		timer = 1.0 / Math.Max(speed, 0.0001);
-		
+
 		
 		NewGen();
 		
@@ -265,9 +291,9 @@ public partial class GoL : Node
 			for (int j = 0; j < WorldHeight; j++)
 			{
 				int count = 0;
-				for (int k = i - 1; k < i + 2; k++)
+				for (int k = i - distanceVoisins; k <= i + distanceVoisins; k++)
 				{
-					for (int l = j - 1; l < j + 2; l++)
+					for (int l = j - distanceVoisins; l <= j + distanceVoisins; l++)
 					{
 						if ( (k != i || l != j) && World(k, l).X >= 1)
 						{
@@ -276,13 +302,12 @@ public partial class GoL : Node
 					}
 				}
 
-				if (count < 2)
+				if (count <= numberToDie)
 				{
 					newWorld[i, j].X = 0;
 					newWorld[i, j].Y = 0;
 				}
-				
-				else if (count == 2)
+				else if (count <= numberToStay)
 				{
 					if (newWorld[i, j].X == 0)
 					{
@@ -293,7 +318,7 @@ public partial class GoL : Node
 						newWorld[i, j].Y += 1;
 					}
 				}
-				else if (count == 3)
+				else if (count <= numberToLive)
 				{
 					newWorld[i, j].X = 1;
 					if (newWorld[i, j].Y < maxAge)
@@ -379,7 +404,7 @@ public partial class GoL : Node
 
 		int steps = palette.Length - 1;
 
-		float t = Mathf.Clamp(age / maxAge, 0f, 1f);
+		float t = Mathf.Clamp((age - 1) / (maxAge - 1), 0f, 1f);
 
 		
 		float scaled = t * steps;
@@ -395,5 +420,20 @@ public partial class GoL : Node
 		return palette[index].Lerp(palette[index + 1], localT);
 	}
 
+	Vector2 GetWorldPixel(Vector2 mousePosition)
+	{
+		//GD.Print("mousePosition : " + mousePosition);
+		
+		Vector2 screenSize = GetViewport().GetVisibleRect().Size;
+		mousePosition.X = mousePosition.X / screenSize.X;
+		mousePosition.Y = mousePosition.Y / screenSize.Y;
+		
+		//GD.Print("normalisé : " + mousePosition);
 
+		mousePosition.X *= pixelWidth;
+		mousePosition.Y *= pixelHeight;
+		
+		//GD.Print("dans le World : " + mousePosition + "\n");
+		return mousePosition;
+	}
 }
