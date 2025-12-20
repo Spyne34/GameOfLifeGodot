@@ -5,6 +5,7 @@ public partial class GoL : Node
 {
 	[Export] public int pixelWidth = 192;
 	[Export] public int pixelHeight = 108;
+	[Export] private Label _speedLabel;
 
 	private Image imgs;
 	private ImageTexture imgTexture;
@@ -102,6 +103,8 @@ public partial class GoL : Node
 		backgroundText.StretchMode = TextureRect.StretchModeEnum.Scale;
 		backgroundText.Size = GetViewport().GetVisibleRect().Size;
 		AddChild(backgroundText);
+
+		UpdateSpeedLabel(speed);
 		
 		world = new Vector2[PixelWidth, PixelHeight];
 
@@ -193,11 +196,13 @@ public partial class GoL : Node
 		if (Input.IsActionJustPressed("Speed Up"))
 		{
 			speed *= 2;
+			UpdateSpeedLabel(speed);
 		}
 		
 		if (Input.IsActionJustPressed("Speed Down"))
 		{
 			speed /= 2;
+			UpdateSpeedLabel(speed);
 		}
 		
 		if (Input.IsActionPressed("Dessiner"))
@@ -280,6 +285,11 @@ public partial class GoL : Node
 		// 	//textRects[k].Texture = imgTexture[k];
 		// 	textRects[k].Modulate  = new Color(1, 1, 1, GetAlpha(k));
 		// }
+	}
+
+	private void UpdateSpeedLabel(float speed)
+	{
+		_speedLabel.Text = $"{speed}x";
 	}
 
 	public void NewGen()
