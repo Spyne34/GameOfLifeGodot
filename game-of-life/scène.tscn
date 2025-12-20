@@ -4,7 +4,28 @@
 
 [node name="Scène" type="Node2D"]
 
-[node name="Canva" type="Node2D" parent="."]
+[node name="Canva" type="Node2D" parent="." node_paths=PackedStringArray("_speedLabel")]
 script = ExtResource("1_0pnx4")
+_speedLabel = NodePath("../CanvasLayer/MarginContainer/Speed")
 maxAge = 20
 fade = 0.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Speed" type="Label" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
