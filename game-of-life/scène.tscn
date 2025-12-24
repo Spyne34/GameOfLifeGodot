@@ -6,5 +6,4 @@
 
 [node name="Canva" type="Node2D" parent="."]
 script = ExtResource("1_0pnx4")
-maxAge = 20
-fade = 0.0
+fade = 0.8

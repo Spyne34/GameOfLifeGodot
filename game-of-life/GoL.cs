@@ -9,8 +9,6 @@ public partial class GoL : Node
 	private Image imgs;
 	private ImageTexture imgTexture;
 	private TextureRect textRects;
-	//[Export] public TextureRect textRects;
-	//[Export] public int nbGen = 1;
 	[Export] public float speed = 1;
 	// en seconde
 	private double timer = 1;
@@ -104,19 +102,6 @@ public partial class GoL : Node
 		AddChild(backgroundText);
 		
 		world = new Vector2[PixelWidth, PixelHeight];
-
-		//textRects = new TextureRect();
-		// textRects = new TextureRect[nbGen];
-		// imgs = new Image[nbGen];
-		// imgTexture = new ImageTexture[nbGen];
-			
-		// for (int k = 0; k < nbGen; k++)
-		// {
-		// 	//Créer les images et colorier les pixels
-		// 	imgs[k] = Image.CreateEmpty(PixelWidth, PixelHeight, false, Image.Format.Rgba8);
-		// 	imgs[k].Fill(new Color(0, 0, 0));
-		// 	//imgs[k].Fill(new Color(0, 0, 0, 0.2f));
-		// }
 		
 		imgs = Image.CreateEmpty(PixelWidth, PixelHeight, false, Image.Format.Rgba8);
 		imgs.Fill(Colors.MidnightBlue);
@@ -134,7 +119,6 @@ public partial class GoL : Node
 		
 		Random rdm = new Random();
 		
-		GD.Print("test0");
 		for (int i = 0; i < PixelWidth; i++)
 		{
 			for (int j = 0; j < PixelHeight; j++)
@@ -146,33 +130,8 @@ public partial class GoL : Node
 				{
 					imgs.SetPixel(i, j, ColorFromAge((int)World(i, j).Y));
 				}
-				
-				// for (int k = 0; k < nbGen; k++)
-				// {
-				// 	imgs[k].SetPixel(i, j, new Color(temp, temp, temp));
-				// 	//imgs[k].SetPixel(i, j, new Color(temp, temp, temp,0.2f));
-				// }
 			}
 		}
-		
-		// for (int k = nbGen - 1; k >= 0; k--)
-		// {
-		// 	//Créer les textures et les paramétrer
-		// 	textRects[k] = new TextureRect();
-		// 	imgTexture[k] = ImageTexture.CreateFromImage(imgs[k]);
-		// 	textRects[k].Texture = imgTexture[k];
-		// 	textRects[k].TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
-		// 	textRects[k].TextureRepeat = CanvasItem.TextureRepeatEnum.Disabled;
-		// 	textRects[k].StretchMode = TextureRect.StretchModeEnum.Scale;
-		// 	textRects[k].Modulate = new Color(1, 1, 1, GetAlpha(k));
-		// 	textRects[k].Size = GetViewport().GetVisibleRect().Size;
-		// 	AddChild(textRects[k]);
-		// }
-
-		//Texture rects
-		//textRect.Size = new Vector2(pixelWidth, pixelHeight);
-		GD.Print("test1");
-		//GD.Print(WorldWidth, WorldHeight);
 	}
 
 	public override void _Process(double delta)
@@ -230,11 +189,6 @@ public partial class GoL : Node
 		
 		NewGen();
 		
-		// for (int k = 1; k < nbGen; k++)
-		// {
-		// 	imgs[k].CopyFrom(imgs[k - 1]);
-		// }
-		
 		for (int i = 0; i < PixelWidth; i++)
 		{
 			for (int j = 0; j < PixelHeight; j++)
@@ -251,35 +205,11 @@ public partial class GoL : Node
 			{
 				if (World(i, j).X >= 1)
 				{
-					// float temp = World(i, j).Y;
-					// Color color;
-					// switch ((int)temp)
-					// {
-						//case 0: color = Colors.MidnightBlue; break;
-						// case 1: color = Colors.DarkGreen; break;
-						// case 1: color = Colors.Green; break;
-						// case 2: color = Colors.GreenYellow; break;
-						// case 3: color = Colors.Gold; break;
-						// case 4: color = Colors.DarkOrange; break;
-						// case 5: color = Colors.OrangeRed; break;
-						// case 6: color = Colors.Red; break;
-					// 	default: color = Colors.White; break;
-					// }
-					//
-					// //color.A = 0.2f;
-					// imgs[0].SetPixel(i, j, color);
 					imgs.SetPixel(i, j, ColorFromAge((int)World(i, j).Y));
 				}
 			}
 		}
 		imgTexture.Update(imgs);
-		
-		// for (int k = 0; k < nbGen; k++)
-		// {
-		// 	imgTexture[k].Update(imgs[k]);
-		// 	//textRects[k].Texture = imgTexture[k];
-		// 	textRects[k].Modulate  = new Color(1, 1, 1, GetAlpha(k));
-		// }
 	}
 
 	public void NewGen()
@@ -336,48 +266,31 @@ public partial class GoL : Node
 		world = newWorld.Clone() as Vector2[,];
 	}
 
-	// public float GetAlpha(int index, float f0 = 0.6f, float fMax = 0.1f, float max = 10f)
-	// {
-	// 	if (nbGen == 1)
-	// 	{
-	// 		return 1;
-	// 	}
-	// 	
-	// 	if (index <= max)
-	// 	{
-	// 		return f0 - (f0 - fMax) / Mathf.Log(max + 1f) * Mathf.Log(index + 1f);
-	// 	}
-	// 	else
-	// 	{
-	// 		return fMax;
-	// 	}
-	// }
 	
 	// Color ColorFromAge(int age, int maxAge)
 	// {
 	// 	age -= 1;
 	// 	maxAge -= 1;
-	// 	// Clamp de sécurité
+	//
 	// 	age = Mathf.Clamp(age, 0, maxAge);
 	//
-	// 	// Normalisation de l’âge entre 0 et 1
 	// 	float t = age / (float)maxAge;
 	//
 	// 	/*
-	// 		t = 0   → jeune cellule
-	// 		t = 1   → vieille cellule
+	// 		t = 0   
+	// 		t = 1   
 	// 	*/
 	//
-	// 	// Dégradé de couleur (du vivant vers le chaud)
-	// 	// Color young = new Color(0.1f, 0.8f, 0.2f); // vert
+	// 	
+	// 	// Color young = new Color(0.1f, 0.8f, 0.2f);
 	// 	Color young = Colors.DarkGreen;
-	// 	// Color old   = new Color(1.0f, 0.3f, 0.1f); // rouge/orange
+	// 	// Color old   = new Color(1.0f, 0.3f, 0.1f); 
 	// 	Color old   = Colors.Red;
 	//
-	// 	// Interpolation linéaire
+	// 	
 	// 	Color color = young.Lerp(old, t);
 	//
-	// 	// Alpha toujours à 1 (le fondu est géré ailleurs)
+	// 	
 	// 	color.A = 1f;
 	//
 	// 	return color;
@@ -422,18 +335,15 @@ public partial class GoL : Node
 
 	Vector2 GetWorldPixel(Vector2 mousePosition)
 	{
-		//GD.Print("mousePosition : " + mousePosition);
 		
 		Vector2 screenSize = GetViewport().GetVisibleRect().Size;
 		mousePosition.X = mousePosition.X / screenSize.X;
 		mousePosition.Y = mousePosition.Y / screenSize.Y;
 		
-		//GD.Print("normalisé : " + mousePosition);
 
 		mousePosition.X *= pixelWidth;
 		mousePosition.Y *= pixelHeight;
 		
-		//GD.Print("dans le World : " + mousePosition + "\n");
 		return mousePosition;
 	}
 }

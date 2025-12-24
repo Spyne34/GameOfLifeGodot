@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="45b2befc-d0be-45a9-a92d-93df3f3f206b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GameOfLife/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GameOfLife/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameOfLife.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GameOfLife.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoL.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoL.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/project.godot" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scène.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/scène.tscn" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -108,6 +108,7 @@
       <workItem from="1764166121998" duration="3279000" />
       <workItem from="1765665022588" duration="25542000" />
       <workItem from="1765795247611" duration="14276000" />
+      <workItem from="1766168831558" duration="4827000" />
     </task>
     <servers />
   </component>
